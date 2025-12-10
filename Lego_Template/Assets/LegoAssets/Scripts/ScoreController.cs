@@ -21,6 +21,10 @@ public class ScoreController : MonoBehaviour {
 		GameObject[] golds = GameObject.FindGameObjectsWithTag ("Gold");
 		if (golds != null)
 			totalGold = golds.Length;
+
+		AppStateManager.Instance.RegisterEvent(AppState.Playing , Restart);
+		AppStateManager.Instance.RegisterEvent(AppState.Win , Win);
+		AppStateManager.Instance.RegisterEvent(AppState.GameOver , Die);
 	}
 	
 	// Update is called once per frame 
@@ -30,25 +34,29 @@ public class ScoreController : MonoBehaviour {
 
 			if (currentGold >= totalGold)
 			{
-				GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
-
-				foreach (GameObject enemy in enemys)
-				{
-					enemy.SendMessage("PlayerDie");
-				}
-				winText.text = "YOU WIN !!!";
-				winText.gameObject.SetActive(true);
-				resetButton.SetActive(true);
+				Win();
 			}
 		}
 	}
+
+	public void Win()
+    {
+        GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
+
+		foreach (GameObject enemy in enemys)
+		{
+			enemy.SendMessage("PlayerDie");
+		}
+		winText.text = "YOU WIN !!!";
+		winText.gameObject.SetActive(true);
+		resetButton.SetActive(true);
+    }
 
 	public void Die (){
 		winText.text = "YOU DIE !!!";
 		winText.gameObject.SetActive(true);
 		resetButton.SetActive(true);
 	}
-
 
 	public void Restart(){
 		UnityEngine.SceneManagement.SceneManager.LoadScene(0); 
