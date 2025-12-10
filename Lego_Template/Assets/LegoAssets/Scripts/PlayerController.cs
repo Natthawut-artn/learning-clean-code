@@ -39,10 +39,4 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 	}
-
-	void OnTriggerEnter(Collider col){
-		if (col.tag == "Gold") {
-			GetComponent<AudioSource>().Play();
-		}
-	}
 }
